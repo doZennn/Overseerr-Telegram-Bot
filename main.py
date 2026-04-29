@@ -909,6 +909,10 @@ async def check_media(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_command_allowed(chat_id, message_thread_id, conf, telegram_user_id):
         return
 
+    # Block usage in group chats when group_mode is disabled
+    if not conf["group_mode"] and chat_id < 0:
+        return
+
     if PASSWORD and not user_is_authorized(telegram_user_id):
         await send_message(context, chat_id, i18n.t('check.error_auth'), message_thread_id=message_thread_id)
         return
