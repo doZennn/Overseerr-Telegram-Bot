@@ -443,7 +443,9 @@ async def handle_text_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await show_settings_menu(update, context, is_admin=is_admin)
         return
 
-    await update.message.reply_text(i18n.t('messages.unknown_command'))
+    # fallback to /check when receiving text input without a command
+    context.args = text.split()
+    await check_media(update, context)
 
 # ==============================================================================
 # USER MANAGEMENT MENU (Admin)
