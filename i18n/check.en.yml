@@ -4,7 +4,7 @@ en:
   
   error_no_user: 👤 *No user configured.* check /settings.
   error_no_results: |
-    🔍 No results for '{media_name}'.
+    🔍 No results for '%{media_name}'.
   error_search: ❌ Search Error.
   error_auth: Please enter password first (/start).
 
