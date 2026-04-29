@@ -972,6 +972,7 @@ async def display_results_with_buttons(update_or_query, context, results, offset
 
 
 async def process_user_selection(update_or_query, context, result, edit_message=False):
+    conf = load_config()
     query = update_or_query if isinstance(update_or_query, CallbackQuery) else update_or_query.callback_query
     
     context.user_data["selected_result"] = result
@@ -1013,8 +1014,9 @@ async def process_user_selection(update_or_query, context, result, edit_message=
 
     if req_btns: keyboard.append(req_btns)
 
-    if (status_hd in REQUESTED or status_4k in REQUESTED) and result.get("overseerr_id"):
-        keyboard.append([InlineKeyboardButton(i18n.t('check.report_btn'), callback_data=f"report_{result.get('overseerr_id')}")])
+    if not conf.get("disable_reporting"):
+        if (status_hd in REQUESTED or status_4k in REQUESTED) and result.get("overseerr_id"):
+            keyboard.append([InlineKeyboardButton(i18n.t('check.report_btn'), callback_data=f"report_{result.get('overseerr_id')}")])
 
     keyboard.append([InlineKeyboardButton(i18n.t('messages.back_btn'), callback_data="back_to_results")])
 
